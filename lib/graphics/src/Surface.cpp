@@ -274,7 +274,7 @@ namespace graphics
         #ifdef ESP_PLATFORM
             if(image.getType() == PNG)
             {
-                storage::FileStream stream(image.getPath().str(), storage::Mode::READ);
+                storage::FileStream stream(image.getStoragePath().str(), storage::Mode::READ);
                 size_t size = stream.size();
 
                 if(!stream.isopen() || size == 0)
@@ -296,13 +296,13 @@ namespace graphics
             switch (image.getType()) // image size with right format
             {
                 case BMP:
-                    m_sprite.drawBmpFile(image.getPath().str().c_str(), x, y, 0, 0, 0, 0, scaleX, scaleY);
+                    m_sprite.drawBmpFile(image.getStoragePath().str().c_str(), x, y, 0, 0, 0, 0, scaleX, scaleY);
                 break;
                 case PNG:
-                    //m_sprite.drawPngFile(image.getPath().str().c_str(), x, y, 0, 0, 0, 0, scaleX, scaleY);
+                    //m_sprite.drawPngFile(image.getStoragePath().str().c_str(), x, y, 0, 0, 0, 0, scaleX, scaleY);
                 break;
                 case JPG:
-                    m_sprite.drawJpgFile(image.getPath().str().c_str(), x, y, 0, 0, 0, 0, scaleX, scaleY);
+                    m_sprite.drawJpgFile(image.getStoragePath().str().c_str(), x, y, 0, 0, 0, 0, scaleX, scaleY);
                 break;
             };
             

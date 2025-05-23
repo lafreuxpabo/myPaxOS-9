@@ -8,10 +8,11 @@
 #include <gui.hpp>
 #include <hardware.hpp>
 #include <mutex>
+#include <determine.h>
 
-#define APP_DIR "/apps"
-#define SYSTEM_APP_DIR "/sys_apps"
-#define PERMS_DIR "/system/permissions"
+
+
+
 
 
 namespace AppManager

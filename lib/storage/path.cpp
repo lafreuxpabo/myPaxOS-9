@@ -6,9 +6,16 @@
 #include <iostream>
 #include <libsystem.hpp>
 
+
+
 #if defined(__linux__) || defined(_WIN32) || defined(_WIN64) || defined(__APPLE__)
 #include <filesystem>
 #include <fstream>
+#include <regex>
+#include <determine.h>
+#include "settings.h"
+
+
 #else
 #include <Arduino.h>
 #include <SD.h>
@@ -22,11 +29,15 @@
 
 #if defined(__linux__) || defined(__APPLE__)
 #define SYSTEM_PATH_SEPARATOR '/'
+#include "settings.h"
 #elif defined(_WIN32) || defined(_WIN64)
 #define SYSTEM_PATH_SEPARATOR '\\'
 #else
 #define SYSTEM_PATH_SEPARATOR '/'
 #endif
+
+
+
 
 bool storage::init() {
 #ifdef ESP_PLATFORM
@@ -64,7 +75,12 @@ namespace storage
 
     Path::Path(const std::string &raw)
     {
-        parse(raw);
+        if (!IS_FROM_IDE){
+			parse(raw);
+		}else{
+			libsystem::log("Asking file: " + raw);
+			
+		}
     }
 
     Path::Path(const Path &other)
@@ -237,8 +253,13 @@ namespace storage
         std::vector<std::string> list;
 
 #if defined(__linux__) || defined(_WIN32) || defined(_WIN64) || defined(__APPLE__)
-        std::filesystem::path dirPath = this->str();
-
+		std::string projectPath = getStoragePath();
+		std::filesystem::path dirPath;
+		if (IS_FROM_IDE)
+			dirPath = getStoragePath() + this->str();
+		else
+			dirPath = this->str();
+			
         if (!std::filesystem::exists(dirPath) || !std::filesystem::is_directory(dirPath))
         {
             std::cerr << "Error: The directory does not exist or is not a valid directory." << std::endl;

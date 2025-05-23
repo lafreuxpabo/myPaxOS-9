@@ -31,6 +31,8 @@ SET_LOOP_TASK_STACK_SIZE(8 * 1024);
 #include <GuiManager.hpp>
 #include <standby.hpp>
 
+#include "settings.h"
+int IS_FROM_IDE = 0;
 
 using namespace gui::elements;
 
@@ -330,6 +332,13 @@ void loop(){}
 // Native main
 int main(int argc, char **argv)
 {
+	if (argc > 1){
+		IS_FROM_IDE = 1;
+		libsystem::log("Running From IDE");
+	}else{
+		IS_FROM_IDE = 0;
+		libsystem::log("Running From Terminal");
+	}
     graphics::SDLInit(setup);
 }
 
